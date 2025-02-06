@@ -1,20 +1,38 @@
-﻿
-
-using Assigment3Dotnet;
+﻿using Xunit;
+using Assigment3Dotnet;  
 
 namespace StringCompressionTest
 {
-    [TestClass]
-    public sealed class Test1
+    public class StringCompressorTests
     {
-        [TestMethod]
-        public void TestCompression()
+        [Fact]
+        public void Test_EmptyString()
         {
-            StringCompression stringCompression = new StringCompression();
+            var compressor = new StringCompressor();
+            Xunit.Assert.Equal("", compressor.Compress(""));
+        }
 
-            string result = stringCompression.Compress("test");
+        [Fact]
+        public void Test_NoConsecutiveCharacters()
+        {        
+            var compressor = new StringCompressor();
+            Xunit.Assert.Equal("abc", compressor.Compress("abc"));
+        }
 
-            Assert.AreEqual("test", result);
+        [Fact]
+        public void Test_ConsecutiveCharacters()
+        {
+            var compressor = new StringCompressor();
+            Xunit.Assert.Equal("a2b1c5a3", compressor.Compress("aabcccccaaa"));
+        }
+
+        [Fact]
+        public void Test_CompressionNotReducingSize()
+        {
+            var compressor = new StringCompressor();
+            Xunit.Assert.Equal("abcd", compressor.Compress("abcd"));
         }
     }
 }
+
+
